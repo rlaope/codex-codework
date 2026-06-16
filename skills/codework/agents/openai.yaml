@@ -1,0 +1,8 @@
+interface:
+  display_name: "Codework"
+  short_description: "Repo delivery loop for planning to merge"
+  brand_color: "#dc2626"
+  default_prompt: "Use $codework to deliver the next repository goal through planning, implementation, review, verification, merge, and local sync."
+
+policy:
+  allow_implicit_invocation: true

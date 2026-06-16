@@ -1,0 +1,14 @@
+{
+  "name": "codex-codework",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Open-source Codex codework skill for repository delivery loops.",
+  "type": "module",
+  "scripts": {
+    "test": "node scripts/validate.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT"
+}
