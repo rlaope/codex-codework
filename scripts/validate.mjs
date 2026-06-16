@@ -19,7 +19,7 @@ const checks = [
   ["skill includes code review gate", skill.includes("$code-review")],
   ["skill includes local sync contract", skill.includes("local runnable surface")],
   ["readme documents installer path", readme.includes("skills/codework")],
-  ["readme documents one-line install", readme.includes("curl -fsSL https://raw.githubusercontent.com/rlaope/codex-codework/main/install.sh | bash")],
+  ["readme documents one-line install", readme.includes("curl -fsSL https://codeload.github.com/rlaope/codex-codework/tar.gz/main")],
   ["readme links GitHub repo", readme.includes("github.com/rlaope/codex-codework")],
   ["agent metadata has default prompt", agentMeta.includes("default_prompt:")],
   ["installer respects CODEX_HOME", install.includes("CODEX_HOME")],

@@ -31,7 +31,7 @@ agent to keep driving a repo task until it is merged or explicitly blocked.
 One-line install:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/rlaope/codex-codework/main/install.sh | bash
+bash -c 't="$(mktemp -d)" && curl -fsSL https://codeload.github.com/rlaope/codex-codework/tar.gz/main | tar -xz -C "$t" && bash "$t/codex-codework-main/install.sh"; s=$?; rm -rf "$t"; exit $s'
 ```
 
 Then restart Codex so the skill is discovered.
