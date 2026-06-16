@@ -56,6 +56,12 @@ if [ ! -f "$staged/SKILL.md" ]; then
   exit 1
 fi
 
+if [ -d "$dest" ] && diff -qr "$dest" "$staged" >/dev/null 2>&1; then
+  echo "codework skill is already up to date at $dest"
+  echo "Restart Codex to pick up the skill, then invoke it with \$codework."
+  exit 0
+fi
+
 if [ -e "$dest" ]; then
   backup="${dest}.backup.$(date -u +%Y%m%dT%H%M%SZ)"
   mv "$dest" "$backup"
