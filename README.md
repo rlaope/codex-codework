@@ -5,12 +5,13 @@
 
 `codework` is a Codex skill for running a complete repository delivery loop:
 goal selection, planning, implementation, verification, PR/review, CI/DCO,
-merge, remote sync, and local runnable sync.
+human-in-the-loop merge approval, merge, remote sync, and local runnable sync.
 
 It is based on OMX (oh-my-codex) workflow surfaces and uses the same delivery
-spine: `$ralplan` for planning, `$ultragoal` or `$ultrawork` for execution, and
-`$code-review` before merge. Outside an OMX tmux runtime, Codex can still follow
-the skill directly as a native Codex skill.
+spine: `$ralplan` for planning, `$ultragoal` or `$ultrawork` for execution,
+`$code-review` before merge, and a final HITL approval gate before the actual
+merge/sync step. Outside an OMX tmux runtime, Codex can still follow the skill
+directly as a native Codex skill.
 
 It is useful when a user does not want only a patch or a plan, but wants an
 agent to keep driving a repo task until it is merged or explicitly blocked.
@@ -24,7 +25,8 @@ agent to keep driving a repo task until it is merged or explicitly blocked.
 - Runs targeted and broad verification.
 - Requires code review before merge unless review is explicitly waived.
 - Waits for CI/DCO and fixes failures in the same active goal.
-- After merge, syncs local `main`, remote `main`, and the user's local runnable surface when applicable.
+- Opens the PR automatically, then asks for HITL approval before merging.
+- After approval and merge, syncs local `main`, remote `main`, and the user's local runnable surface when applicable.
 
 ## Install
 
@@ -55,13 +57,13 @@ cp -R /tmp/codex-codework/skills/codework ~/.codex/skills/codework
 Invoke it explicitly:
 
 ```text
-$codework implement the next highest-leverage repository improvement and merge it when checks pass
+$codework implement the next highest-leverage repository improvement, open a PR, and ask me before merge
 ```
 
 Or use it for a concrete delivery goal:
 
 ```text
-$codework improve the dashboard observability UX, add tests, update docs, review, merge, and sync my local CLI
+$codework improve the dashboard observability UX, add tests, update docs, review, open the PR, ask before merge, and sync my local CLI after approval
 ```
 
 ## Skill Path

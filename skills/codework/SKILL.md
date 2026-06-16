@@ -1,6 +1,6 @@
 ---
 name: codework
-description: "Run the recurring repo delivery loop: choose or clarify the next goal, run the real ralplan gate, implement through ultragoal or ultrawork, open a PR, run code review, wait for CI/DCO, fix failures, and merge when authorized. Use when the user says codework, asks for the next implementation cycle, or wants planning-to-merge automation for a repository task."
+description: "Run the recurring repo delivery loop: choose or clarify the next goal, run the real ralplan gate, implement through ultragoal or ultrawork, open a PR, run code review, wait for CI/DCO, fix failures, then ask for human-in-the-loop merge approval before merging and syncing. Use when the user says codework, asks for the next implementation cycle, or wants planning-to-PR automation with explicit HITL before merge."
 ---
 
 # Codework
@@ -9,9 +9,17 @@ Use `codework` when the user wants the full coding delivery cycle, not just a pl
 
 ## Default Outcome
 
-Deliver one merged PR on `main` when authority is clear.
+Deliver one merge-ready PR automatically, then stop for human-in-the-loop
+approval before merging.
 
-If merge authority is not clear, stop at a merge-ready PR with review and CI evidence. If the user says "merge까지", "끝까지", "ship it", or invokes `codework` in a repo where prior standing instructions allow merge, treat merge as authorized after checks pass.
+Do not merge on standing authority alone. Even if the user says "merge까지",
+"끝까지", "ship it", or invokes `codework` in a repo where prior standing
+instructions allow merge, ask a final HITL merge question after review and
+checks pass. Merge and sync only after the user gives an affirmative response
+to that final question in the current thread/session.
+
+If the user does not approve, declines, or is unavailable, stop at a
+merge-ready PR with review and CI evidence.
 
 ## Delivery Grain
 
@@ -33,7 +41,7 @@ decision, or explicit user instruction to stack/split PRs.
 
 `codework` is not a mini planning shortcut. Its normal path is:
 
-`$ralplan -> $ultragoal` or `$ultrawork -> $code-review -> CI/DCO -> merge`
+`$ralplan -> $ultragoal` or `$ultrawork -> PR -> $code-review -> CI/DCO -> HITL merge approval -> merge/sync`
 
 Use the real workflow surfaces whenever they are available:
 
@@ -82,7 +90,7 @@ Use the real workflow surfaces whenever they are available:
 5. **PR**
    - Create a branch with the default `codex/` prefix unless the repo says otherwise.
    - Commit with DCO/signoff when required.
-   - Push and open one PR for the cycle.
+   - Push and open one PR for the cycle automatically.
    - PR body must include summary, verification, review expectations, and any known risks.
    - Keep later review/CI fixes for this same goal in the same PR as additional focused commits.
 
@@ -97,7 +105,9 @@ Use the real workflow surfaces whenever they are available:
 7. **CI / DCO / Merge**
    - Wait for required checks, including DCO.
    - If checks fail, inspect logs, fix, push, and wait again.
-   - Merge only when: local verification passed, review is clear or waived, required checks pass, branch is mergeable, and merge authority is present.
+   - When local verification passed, review is clear or waived, required checks pass, and the branch is mergeable, ask a final HITL merge question before merging.
+   - The HITL question must summarize the PR URL, review result, CI/DCO result, local verification, merge strategy, and local sync plan, then ask whether to merge now.
+   - Do not merge until the user gives an affirmative response to that final HITL question. If the user declines, defers, or does not answer, stop at the merge-ready PR.
    - Prefer merge commits when preserving commit structure matters; use squash only if repo policy or user request says so.
    - After merge, push or fetch the merged `main` as needed so local `main` and the default remote agree.
    - Sync the user's local runnable surface when the repo ships a CLI, plugin, app, or generated tool the user runs from this machine. Use the repo's established local install/update command; for Loop, run `npm install -g .` from the repo root.
@@ -108,7 +118,8 @@ Use the real workflow surfaces whenever they are available:
 Stop with a concise report when one of these is true:
 
 - PR is merged, remote/default `main` and local `main` agree, the user's local runnable surface is synced when applicable, and the worktree is clean.
-- PR is merge-ready but merge authority is missing.
+- PR is merge-ready and awaiting HITL merge approval.
+- PR is merge-ready and the user declined or deferred merge approval.
 - A blocker requires user authority, credentials, destructive action, production access, or a materially branching decision.
 - The same blocking condition repeats after reasonable fix attempts.
 
@@ -118,6 +129,7 @@ Include:
 
 - Goal chosen and why.
 - PR URL and merge commit, if merged.
+- HITL merge approval status.
 - Remote/default branch sync result.
 - Local runnable sync result, when applicable.
 - Changed files or high-level change summary.
