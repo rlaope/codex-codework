@@ -28,7 +28,15 @@ agent to keep driving a repo task until it is merged or explicitly blocked.
 
 ## Install
 
-Ask Codex to install this skill from GitHub:
+One-line install:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/rlaope/codex-codework/main/install.sh | bash
+```
+
+Then restart Codex so the skill is discovered.
+
+You can also ask Codex to install this skill from GitHub:
 
 ```text
 Install the codework skill from https://github.com/rlaope/codex-codework/tree/main/skills/codework
@@ -41,8 +49,6 @@ mkdir -p ~/.codex/skills
 git clone https://github.com/rlaope/codex-codework.git /tmp/codex-codework
 cp -R /tmp/codex-codework/skills/codework ~/.codex/skills/codework
 ```
-
-Restart Codex after installing so the skill is discovered.
 
 ## Use
 
